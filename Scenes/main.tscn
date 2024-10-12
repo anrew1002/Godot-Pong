@@ -1,0 +1,137 @@
+[gd_scene load_steps=10 format=3 uid="uid://diu82naa5ulmq"]
+
+[ext_resource type="Script" path="res://Scripts/main.gd" id="1_ialho"]
+[ext_resource type="Script" path="res://Scenes/Player/player.gd" id="3_1sium"]
+[ext_resource type="Script" path="res://Scripts/enemy.gd" id="3_34ef5"]
+[ext_resource type="Script" path="res://Scripts/ball.gd" id="3_wa1a5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e51b8"]
+size = Vector2(19.5, 135)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5rruh"]
+size = Vector2(12, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nyrab"]
+size = Vector2(64, 648)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7aq77"]
+size = Vector2(1152, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vkped"]
+size = Vector2(1152, 32)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_ialho")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color(0.471489, 0.538229, 0.761354, 1)
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.0193221, 0.0635611, 0.138192, 1)
+
+[node name="Player" type="StaticBody2D" parent="."]
+position = Vector2(56, 320)
+script = ExtResource("3_1sium")
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Player"]
+offset_left = -10.0
+offset_top = -68.0
+offset_right = 10.0
+offset_bottom = 68.0
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("RectangleShape2D_e51b8")
+
+[node name="Enemy" type="StaticBody2D" parent="."]
+position = Vector2(1088, 320)
+script = ExtResource("3_34ef5")
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Enemy"]
+offset_left = -10.0
+offset_top = -68.0
+offset_right = 10.0
+offset_bottom = 68.0
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
+shape = SubResource("RectangleShape2D_e51b8")
+
+[node name="Ball" type="CharacterBody2D" parent="."]
+position = Vector2(576, 324)
+collision_mask = 3
+script = ExtResource("3_wa1a5")
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Ball"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.949349, 0.230079, 0.696759, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
+shape = SubResource("RectangleShape2D_5rruh")
+
+[node name="LeftCollision" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftCollision"]
+position = Vector2(-32, 324)
+shape = SubResource("RectangleShape2D_nyrab")
+
+[node name="RightCollision" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightCollision"]
+position = Vector2(1184, 324)
+shape = SubResource("RectangleShape2D_nyrab")
+
+[node name="Borders TD" type="StaticBody2D" parent="."]
+collision_layer = 2
+
+[node name="Top" type="CollisionShape2D" parent="Borders TD"]
+position = Vector2(576, -16)
+shape = SubResource("RectangleShape2D_7aq77")
+
+[node name="Bottom" type="CollisionShape2D" parent="Borders TD"]
+position = Vector2(576, 664)
+shape = SubResource("RectangleShape2D_vkped")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="PlayerScore" type="Label" parent="HUD"]
+offset_left = 520.0
+offset_top = 56.0
+offset_right = 543.0
+offset_bottom = 91.0
+theme_override_font_sizes/font_size = 25
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OpScore" type="Label" parent="HUD"]
+offset_left = 616.0
+offset_top = 56.0
+offset_right = 639.0
+offset_bottom = 91.0
+theme_override_font_sizes/font_size = 25
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="body_entered" from="LeftCollision" to="." method="_on_left_collision_body_entered"]
+[connection signal="body_entered" from="RightCollision" to="." method="_on_right_collision_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
