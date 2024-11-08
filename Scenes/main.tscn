@@ -1,9 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://diu82naa5ulmq"]
+[gd_scene load_steps=15 format=3 uid="uid://diu82naa5ulmq"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_ialho"]
 [ext_resource type="Script" path="res://Scenes/Player/player.gd" id="3_1sium"]
 [ext_resource type="Script" path="res://Scripts/enemy.gd" id="3_34ef5"]
 [ext_resource type="Script" path="res://Scripts/ball.gd" id="3_wa1a5"]
+[ext_resource type="Script" path="res://Scenes/DebugArrow.gd" id="5_usdtn"]
+[ext_resource type="Theme" uid="uid://cy51yv0tb7j2e" path="res://Assets/menu_theme.tres" id="6_8n8m3"]
+[ext_resource type="Script" path="res://Scenes/hud.gd" id="6_aaxjt"]
+[ext_resource type="Script" path="res://Scenes/menu.gd" id="6_ul08a"]
+[ext_resource type="FontFile" uid="uid://casld341t5esr" path="res://Assets/atariclassic-regular.ttf" id="7_ein76"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e51b8"]
 size = Vector2(19.5, 135)
@@ -65,6 +70,9 @@ collision_mask = 3
 script = ExtResource("3_wa1a5")
 metadata/_edit_group_ = true
 
+[node name="Node2D" type="Node2D" parent="Ball"]
+script = ExtResource("5_usdtn")
+
 [node name="ColorRect" type="ColorRect" parent="Ball"]
 anchors_preset = 8
 anchor_left = 0.5
@@ -81,6 +89,7 @@ color = Color(0.949349, 0.230079, 0.696759, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
+visible = false
 shape = SubResource("RectangleShape2D_5rruh")
 
 [node name="LeftCollision" type="Area2D" parent="."]
@@ -107,12 +116,14 @@ position = Vector2(576, 664)
 shape = SubResource("RectangleShape2D_vkped")
 
 [node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("6_aaxjt")
 
 [node name="PlayerScore" type="Label" parent="HUD"]
 offset_left = 520.0
 offset_top = 56.0
 offset_right = 543.0
 offset_bottom = 91.0
+theme_override_fonts/font = ExtResource("7_ein76")
 theme_override_font_sizes/font_size = 25
 text = "0"
 horizontal_alignment = 1
@@ -123,10 +134,82 @@ offset_left = 616.0
 offset_top = 56.0
 offset_right = 639.0
 offset_bottom = 91.0
+theme_override_fonts/font = ExtResource("7_ein76")
 theme_override_font_sizes/font_size = 25
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Menu" type="CanvasLayer" parent="."]
+layer = 4
+
+[node name="CenterContainer" type="CenterContainer" parent="Menu"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.998438, 1)
+
+[node name="ColorRect" type="ColorRect" parent="Menu/CenterContainer"]
+visible = false
+custom_minimum_size = Vector2(320, 320)
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+
+[node name="ColorRect2" type="ColorRect" parent="Menu/CenterContainer"]
+custom_minimum_size = Vector2(310, 310)
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+color = Color(0.00784314, 0.0352941, 0.105882, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/CenterContainer/ColorRect2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -170.0
+offset_top = -33.0
+offset_right = 170.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("6_ul08a")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Menu/CenterContainer/ColorRect2/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("7_ein76")
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[pulse freq=3.0 color=#ffffff40 ease ]Victory[/pulse]"
+fit_content = true
+
+[node name="ReferenceRect2" type="ReferenceRect" parent="Menu/CenterContainer/ColorRect2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+border_width = 0.0
+
+[node name="Play" type="Button" parent="Menu/CenterContainer/ColorRect2/VBoxContainer"]
+custom_minimum_size = Vector2(150, 100)
+layout_mode = 2
+theme = ExtResource("6_8n8m3")
+theme_override_fonts/font = ExtResource("7_ein76")
+text = "PLAY"
+
+[node name="ReferenceRect" type="ReferenceRect" parent="Menu/CenterContainer/ColorRect2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+border_width = 0.0
+
+[node name="Exit" type="Button" parent="Menu/CenterContainer/ColorRect2/VBoxContainer"]
+custom_minimum_size = Vector2(150, 100)
+layout_mode = 2
+theme = ExtResource("6_8n8m3")
+theme_override_fonts/font = ExtResource("7_ein76")
+text = "EXIT"
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
@@ -134,4 +217,6 @@ autostart = true
 
 [connection signal="body_entered" from="LeftCollision" to="." method="_on_left_collision_body_entered"]
 [connection signal="body_entered" from="RightCollision" to="." method="_on_right_collision_body_entered"]
+[connection signal="pressed" from="Menu/CenterContainer/ColorRect2/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Menu/CenterContainer/ColorRect2/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

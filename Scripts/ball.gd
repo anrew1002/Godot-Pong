@@ -1,15 +1,21 @@
 extends CharacterBody2D
+class_name Ball
 
 var win_size : Vector2
 const START_SPEED: int = 400 
 const ACCEL: int = 50 
 var speed: int
-var dir: Vector2
+var dir: Vector2 = Vector2(0,0)
 const MAX_Y_VECTOR: float = 0.6
 
 
 func _ready() -> void:
 	win_size = get_viewport_rect().size
+
+func reset() -> void:
+	position.x = - 500
+	position.y = win_size.y / 2
+	speed = 0
 
 func new_ball() -> void: 
 	position.x = win_size.x / 2
@@ -27,6 +33,7 @@ func _physics_process(delta: float) -> void:
 			dir = new_direction(collider)
 		else: 	
 			dir = dir.bounce(collision.get_normal())
+	# print(global_position)
 
 
 func random_direction() -> Vector2:

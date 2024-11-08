@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=3 uid="uid://b8qx6isrt6wdm"]
+
+[ext_resource type="Shader" path="res://Scenes/menu_main.gdshader" id="1_rq5qu"]
+[ext_resource type="Texture2D" uid="uid://cs8d0axv4mpma" path="res://Scenes/Menu_ui_blue_base.png" id="1_yh1m4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dypbx"]
+render_priority = 0
+shader = ExtResource("1_rq5qu")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_68ffn"]
+bg_color = Color(0.0948962, 0.179181, 0.240712, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.344019, 0.599918, 0.927505, 1)
+border_blend = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wlr3"]
+atlas = ExtResource("1_yh1m4")
+region = Rect2(383, 1455, 129, 162)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kj08i"]
+texture = SubResource("AtlasTexture_5wlr3")
+
+[node name="MenuMain" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_dypbx")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -150.0
+offset_right = 100.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_68ffn")
+
+[node name="Panel2" type="Panel" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 431.0
+offset_top = 136.0
+offset_right = 700.0
+offset_bottom = 500.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_kj08i")
