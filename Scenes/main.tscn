@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://Scripts/enemy.gd" id="3_34ef5"]
 [ext_resource type="Script" path="res://Scripts/ball.gd" id="3_wa1a5"]
 [ext_resource type="Script" path="res://Scenes/DebugArrow.gd" id="5_usdtn"]
-[ext_resource type="Theme" uid="uid://cy51yv0tb7j2e" path="res://Assets/menu_theme.tres" id="6_8n8m3"]
+[ext_resource type="Theme" uid="uid://82if837lwnar" path="res://Assets/menu_theme.tres" id="6_8n8m3"]
 [ext_resource type="Script" path="res://Scenes/hud.gd" id="6_aaxjt"]
 [ext_resource type="Script" path="res://Scenes/menu.gd" id="6_ul08a"]
 [ext_resource type="FontFile" uid="uid://casld341t5esr" path="res://Assets/atariclassic-regular.ttf" id="7_ein76"]
